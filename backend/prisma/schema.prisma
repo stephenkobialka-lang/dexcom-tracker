@@ -1,0 +1,84 @@
+// This is your Prisma schema file
+// Learn more about it at https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  dexcomUserId      String?   @unique
+  accessToken       String?
+  refreshToken      String?
+  tokenExpiresAt    DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  readings          GlucoseReading[]
+  alerts            Alert[]
+  analysisReports   AnalysisReport[]
+}
+
+model GlucoseReading {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  
+  systemTime    DateTime
+  displayTime   DateTime
+  value         Int      // mg/dL
+  trend         String?  // FLAT, FORTY_FIVE_UP, SINGLE_UP, DOUBLE_UP, etc.
+  trendRate     Float?   // mg/dL per minute
+  status        String?  // HIGH, LOW, OK
+  
+  createdAt     DateTime @default(now())
+
+  @@unique([userId, systemTime])
+  @@index([userId, displayTime])
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  type        String   // HIGH, LOW, RAPID_RISE, RAPID_FALL
+  value       Int      // glucose value at alert time
+  threshold   Int      // the threshold that was crossed
+  message     String
+  acknowledged Boolean @default(false)
+  
+  triggeredAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([userId, triggeredAt])
+}
+
+model AnalysisReport {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  period      String   // DAILY, WEEKLY
+  startDate   DateTime
+  endDate     DateTime
+  
+  avgGlucose      Float?
+  timeInRange     Float?  // percentage 70-180 mg/dL
+  timeBelow       Float?  // percentage <70
+  timeAbove       Float?  // percentage >180
+  gmi             Float?  // Glucose Management Indicator
+  cv              Float?  // Coefficient of variation
+  
+  aiInsights      String? // Claude-generated insights
+  aiSuggestions   String? // Claude-generated suggestions
+  
+  createdAt   DateTime @default(now())
+
+  @@index([userId, startDate])
+}

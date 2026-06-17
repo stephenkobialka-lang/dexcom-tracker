@@ -1,0 +1,55 @@
+/* LoginPage.css */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 24px;
+}
+
+.login-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px 40px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-logo { margin-bottom: 16px; }
+.login-icon { font-size: 48px; }
+
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  color: var(--text-sub);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.login-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--blue);
+  color: #0B1120;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: opacity 0.15s;
+  margin-bottom: 16px;
+}
+
+.login-btn:hover { opacity: 0.9; }
+
+.login-note {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}

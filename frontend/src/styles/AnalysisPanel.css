@@ -1,0 +1,122 @@
+.analysis-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.analysis-actions { display: flex; gap: 8px; }
+
+.run-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-sub);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  transition: all 0.15s;
+}
+
+.run-btn:hover:not(:disabled) { color: var(--text); border-color: #374151; }
+.run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.run-btn.primary {
+  background: rgba(96,165,250,0.1);
+  border-color: var(--blue);
+  color: var(--blue);
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.run-btn.weekly { color: var(--blue); border-color: rgba(96,165,250,0.3); }
+
+.analysis-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 0;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.analysis-period {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.analysis-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.astat {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.astat-value {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--blue);
+}
+
+.astat-value.tir { color: var(--green); }
+
+.astat-label {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.ai-section { display: flex; flex-direction: column; gap: 8px; }
+
+.ai-section h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+.ai-insights {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.ai-suggestions {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ai-suggestions li {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-sub);
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-left: 2px solid var(--blue);
+  border-radius: 0 6px 6px 0;
+}
+
+.analysis-disclaimer {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
