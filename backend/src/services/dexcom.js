@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const DEXCOM_BASE_URL = 'https://api.dexcom.com';
-const DEXCOM_AUTH_URL = 'https://api.dexcom.com/v2/oauth2';
+const DEXCOM_AUTH_URL = 'https://api.dexcom.com/v3/oauth2';
 
 /**
  * Build the Dexcom OAuth2 authorization URL
@@ -13,7 +13,7 @@ function getAuthorizationUrl() {
     response_type: 'code',
     scope: 'offline_access',
   });
-  return `${DEXCOM_AUTH_URL}/login?${params.toString()}`;
+  return `https://api.dexcom.com/v2/oauth2/login?${params.toString()}`;
 }
 
 /**
