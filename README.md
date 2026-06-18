@@ -12,7 +12,7 @@ A full-stack glucose monitoring dashboard for your daughter's Dexcom G7. Automat
 - **Persistent Storage** — All readings stored in PostgreSQL; nothing lost on redeploy
 - **Auto Token Refresh** — Dexcom OAuth tokens refresh automatically
 
----
+--- 
 
 ## Architecture
 
