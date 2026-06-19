@@ -19,21 +19,16 @@ router.get('/callback', async (req, res) => {
     return res.redirect(`${process.env.FRONTEND_URL}?auth=error`);
   }
 
-try {
-    // Exchange code for tokens
+  try {
     console.log('Attempting token exchange...');
     const tokens = await dexcomService.exchangeCodeForTokens(code);
     console.log('Token exchange successful');
-    // Get Dexcom user info
+
     console.log('Attempting to get user info...');
     const dexcomUser = await dexcomService.getDexcomUser(tokens.access_token);
     console.log('Got user info:', dexcomUser);
-    // Upsert user in database
-    console.log('Attempting database upsert...');
-    const user = await prisma.user.upsert({
-  
 
-    // Upsert user in database
+    console.log('Attempting database upsert...');
     const user = await prisma.user.upsert({
       where: { dexcomUserId: dexcomUser.userId },
       update: {
@@ -42,16 +37,15 @@ try {
         tokenExpiresAt: new Date(Date.now() + tokens.expires_in * 1000),
       },
       create: {
+        id: require('crypto').randomUUID(),
         dexcomUserId: dexcomUser.userId,
         accessToken: tokens.access_token,
         refreshToken: tokens.refresh_token,
         tokenExpiresAt: new Date(Date.now() + tokens.expires_in * 1000),
       },
     });
-console.log('Upsert successful, redirecting to frontend with userId:', user.id);
-    // Redirect to frontend with user ID
-    res.redirect(`${process.env.FRONTEND_URL}?auth=success&userId=${user.id}`);
-    // Redirect to frontend with user ID (frontend stores this)
+
+    console.log('Upsert successful, redirecting with userId:', user.id);
     res.redirect(`${process.env.FRONTEND_URL}?auth=success&userId=${user.id}`);
   } catch (err) {
     console.error('Auth callback error:', err.message);
