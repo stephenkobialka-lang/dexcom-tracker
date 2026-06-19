@@ -28,6 +28,9 @@ try {
     console.log('Attempting to get user info...');
     const dexcomUser = await dexcomService.getDexcomUser(tokens.access_token);
     console.log('Got user info:', dexcomUser);
+    // Upsert user in database
+    console.log('Attempting database upsert...');
+    const user = await prisma.user.upsert({
   
 
     // Upsert user in database
@@ -45,7 +48,9 @@ try {
         tokenExpiresAt: new Date(Date.now() + tokens.expires_in * 1000),
       },
     });
-
+console.log('Upsert successful, redirecting to frontend with userId:', user.id);
+    // Redirect to frontend with user ID
+    res.redirect(`${process.env.FRONTEND_URL}?auth=success&userId=${user.id}`);
     // Redirect to frontend with user ID (frontend stores this)
     res.redirect(`${process.env.FRONTEND_URL}?auth=success&userId=${user.id}`);
   } catch (err) {
