@@ -19,12 +19,16 @@ router.get('/callback', async (req, res) => {
     return res.redirect(`${process.env.FRONTEND_URL}?auth=error`);
   }
 
-  try {
+try {
     // Exchange code for tokens
+    console.log('Attempting token exchange...');
     const tokens = await dexcomService.exchangeCodeForTokens(code);
-
+    console.log('Token exchange successful');
     // Get Dexcom user info
+    console.log('Attempting to get user info...');
     const dexcomUser = await dexcomService.getDexcomUser(tokens.access_token);
+    console.log('Got user info:', dexcomUser);
+  
 
     // Upsert user in database
     const user = await prisma.user.upsert({
