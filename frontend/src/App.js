@@ -10,10 +10,10 @@ function App() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const fullUrl = window.location.href;
-    const searchStart = fullUrl.indexOf('?');
-    const params = searchStart !== -1
-      ? new URLSearchParams(fullUrl.substring(searchStart))
+const fullUrl = window.location.href;
+    const hashStart = fullUrl.indexOf('#');
+    const params = hashStart !== -1
+      ? new URLSearchParams(fullUrl.substring(hashStart + 1))
       : new URLSearchParams(window.location.search);
 
     const authResult = params.get('auth');
