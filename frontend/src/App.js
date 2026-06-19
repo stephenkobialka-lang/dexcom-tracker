@@ -9,14 +9,13 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [checking, setChecking] = useState(true);
 
-useEffect(() => {
-    // Handle OAuth callback params - check both search and hash
+  useEffect(() => {
     const fullUrl = window.location.href;
     const searchStart = fullUrl.indexOf('?');
-    const params = searchStart !== -1 
+    const params = searchStart !== -1
       ? new URLSearchParams(fullUrl.substring(searchStart))
       : new URLSearchParams(window.location.search);
-      
+
     const authResult = params.get('auth');
     const returnedUserId = params.get('userId');
 
@@ -26,31 +25,6 @@ useEffect(() => {
       window.history.replaceState({}, '', window.location.pathname);
     }
 
-    const storedId = returnedUserId || userId;
-    if (storedId) {
-      api.checkAuthStatus(storedId)
-        .then(({ authenticated }) => {
-          setAuthenticated(authenticated);
-          if (!authenticated) {
-            localStorage.removeItem('userId');
-            setUserId(null);
-          }
-        })
-        .catch(() => setAuthenticated(false))
-        .finally(() => setChecking(false));
-    } else {
-      setChecking(false);
-    }
-  }, []);
-
-    if (authResult === 'success' && returnedUserId) {
-      localStorage.setItem('userId', returnedUserId);
-      setUserId(returnedUserId);
-      // Clean URL
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-
-    // Check auth status
     const storedId = returnedUserId || userId;
     if (storedId) {
       api.checkAuthStatus(storedId)
