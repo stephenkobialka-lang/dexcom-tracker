@@ -45,8 +45,22 @@ router.get('/callback', async (req, res) => {
       },
     });
 
-    console.log('Upsert successful, redirecting with userId:', user.id);
-    res.redirect(`${process.env.FRONTEND_URL}#auth=success&userId=${user.id}`);
+console.log('Upsert successful, sending redirect page for userId:', user.id);
+    const frontendUrl = process.env.FRONTEND_URL;
+    const userId = user.id;
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <script>
+          localStorage.setItem('userId', '${userId}');
+          window.location.href = '${frontendUrl}';
+        </script>
+      </head>
+      <body>Redirecting...</body>
+      </html>
+    `);
+    
   } catch (err) {
     console.error('Auth callback error:', err.message);
     return res.redirect(`${process.env.FRONTEND_URL}#auth=error`);
