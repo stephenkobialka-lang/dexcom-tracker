@@ -40,10 +40,7 @@ async function refreshAccessToken(refreshToken) {
 }
 
 async function getDexcomUser(accessToken) {
-  const response = await axios.get(`${DEXCOM_BASE_URL}/v3/users/self`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-  return response.data;
+  return { userId: 'default-user' };
 }
 
 async function fetchGlucoseReadings(accessToken, startDate, endDate) {
