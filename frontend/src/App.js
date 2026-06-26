@@ -10,12 +10,7 @@ function App() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-const fullUrl = window.location.href;
-    const hashStart = fullUrl.indexOf('#');
-    const params = hashStart !== -1
-      ? new URLSearchParams(fullUrl.substring(hashStart + 1))
-      : new URLSearchParams(window.location.search);
-
+    const params = new URLSearchParams(window.location.search);
     const authResult = params.get('auth');
     const returnedUserId = params.get('userId');
 
@@ -25,7 +20,7 @@ const fullUrl = window.location.href;
       window.history.replaceState({}, '', window.location.pathname);
     }
 
-    const storedId = returnedUserId || userId;
+    const storedId = returnedUserId || localStorage.getItem('userId');
     if (storedId) {
       api.checkAuthStatus(storedId)
         .then(({ authenticated }) => {
