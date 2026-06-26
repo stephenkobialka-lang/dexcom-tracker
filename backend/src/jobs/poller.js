@@ -74,3 +74,32 @@ async function pollUser(user) {
       where: {
         userId_systemTime: {
           userId: user.id,
+systemTime: mapped.systemTime,
+        },
+      },
+      update: {},
+      create: { userId: user.id, ...mapped },
+    });
+  }
+
+  console.log(`[Poller] Stored readings for user ${user.id}`);
+
+  const latestReading = await prisma.glucoseReading.findFirst({
+    where: { userId: user.id },
+    orderBy: { systemTime: 'desc' },
+  });
+
+  if (latestReading) {
+    await checkAndCreateAlerts(user.id, latestReading);
+  }
+}
+
+function startPollingJob() {
+  console.log('[Poller] Starting background polling job (every 5 minutes)');
+  pollAllUsers();
+  cron.schedule('*/5 * * * *', () => {
+    pollAllUsers();
+  });
+}
+
+module.exports = { startPollingJob, pollAllUsers };
