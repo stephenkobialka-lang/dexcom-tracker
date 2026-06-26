@@ -13,11 +13,14 @@ const { startPollingJob } = require('./jobs/poller');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Trust Render's proxy
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet());
 app.use(express.json());
 
-// CORS — allow your GitHub Pages frontend
+// CORS
 app.use(cors({
   origin: [
     'https://stephenkobialka-lang.github.io',
@@ -30,7 +33,7 @@ app.use(cors({
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000,
   max: 100,
 });
 app.use('/api/', limiter);
@@ -49,6 +52,5 @@ app.get('/health', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  // Start the background polling job
   startPollingJob();
 });
