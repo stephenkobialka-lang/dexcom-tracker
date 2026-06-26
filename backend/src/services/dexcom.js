@@ -44,10 +44,14 @@ async function getDexcomUser(accessToken) {
 }
 
 async function fetchGlucoseReadings(accessToken, startDate, endDate) {
+  function formatDate(date) {
+    return date.toISOString().substring(0, 19);
+  }
   const params = new URLSearchParams({
-    startDate: startDate.toISOString(),
-    endDate: endDate.toISOString(),
+    startDate: formatDate(startDate),
+    endDate: formatDate(endDate),
   });
+  
   const response = await axios.get(
     `${DEXCOM_BASE_URL}/v3/users/self/egvs?${params.toString()}`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
