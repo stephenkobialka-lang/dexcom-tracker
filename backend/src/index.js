@@ -20,8 +20,10 @@ app.use(express.json());
 // CORS — allow your GitHub Pages frontend
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL,
-    'http://localhost:3000', // local dev
+    'https://stephenkobialka-lang.github.io',
+    'https://stephenkobialka-lang.github.io/dexcom-tracker',
+    'https://stephenkobialka-lang.github.io/dexcom-tracker/',
+    'http://localhost:3000',
   ],
   credentials: true,
 }));
