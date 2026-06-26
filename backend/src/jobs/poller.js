@@ -47,11 +47,13 @@ async function pollUser(user) {
           tokenExpiresAt: new Date(Date.now() + tokens.expires_in * 1000),
         },
       });
-    } catch (err) {
-      console.error(`[Poller] Token refresh failed for user ${user.id}:`, err.message);
-      return;
+} catch (err) {
+      console.error(`[Poller] Error polling user ${user.id}:`, err.message);
+      if (err.response) {
+        console.error('[Poller] Response status:', err.response.status);
+        console.error('[Poller] Response data:', JSON.stringify(err.response.data));
+      }
     }
-  }
 
   // Fetch last 3 hours of readings (overlap ensures no gaps)
   const endDate = new Date();
