@@ -57,7 +57,8 @@ async function pollUser(user) {
   const endDate = new Date();
   const startDate = new Date(endDate - 3 * 60 * 60 * 1000);
 
-  const rawReadings = await dexcomService.fetchGlucoseReadings(
+console.log('[Poller] Fetching readings for user', user.id);
+const rawReadings = await dexcomService.fetchGlucoseReadings(
     user.accessToken,
     startDate,
     endDate
